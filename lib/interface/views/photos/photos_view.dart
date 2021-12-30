@@ -1,3 +1,4 @@
+import 'package:eds_test/interface/shared/ui_helpers.dart';
 import 'package:eds_test/interface/widgets/carousel_images_widget.dart';
 import 'package:eds_test/interface/widgets/image_widget.dart';
 import 'package:eds_test/interface/widgets/text_widget.dart';
@@ -38,8 +39,11 @@ class PhotosView extends StatelessWidget {
           ],
         ),
         body: viewModel.showSlideShow!
-            ? CarouselImagesWidget(
-                imageUrls: viewModel.albumPhotos.map((p) => p.url).toList(),
+            ? Padding(
+                padding: basePadding,
+                child: CarouselImagesWidget(
+                  photos: viewModel.albumPhotos,
+                ),
               )
             : GridView.builder(
                 padding: const EdgeInsets.all(10.0),
