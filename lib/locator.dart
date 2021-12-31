@@ -8,7 +8,4 @@ final locator = GetIt.instance;
 Future<void> setupLocator() async {
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => ApiService());
-
-  // var instance = await LocalStorageService.getServiceInstance();
-  // locator.registerSingleton<LocalStorageService>(instance!);
 }
