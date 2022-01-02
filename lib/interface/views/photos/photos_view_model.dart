@@ -8,7 +8,6 @@ class PhotosViewModel extends BaseViewModel {
   final _apiService = locator<ApiService>();
   final _databaseService = locator<DatabaseService>();
 
-
   bool? showSlideShow;
 
   void initSlideshow(bool slide) {
@@ -25,8 +24,16 @@ class PhotosViewModel extends BaseViewModel {
 
   Future<void> getAlbumPhotos(int albumId) async {
     setBusy(true);
-    List<Photo> photosFromApi = await _apiService.getAlbumPhotos(albumId);
-    _albumPhotos.addAll(photosFromApi);
+    List<Photo> photosFromDb = await _databaseService.queryPhotos(albumId);
+    if (photosFromDb.isNotEmpty) {
+      _albumPhotos.addAll(photosFromDb);
+    } else {
+      List<Photo> photosFromApi = await _apiService.getAlbumPhotos(albumId);
+      for (var photo in photosFromApi) {
+        await _databaseService.insertPhoto(photo);
+      }
+      _albumPhotos.addAll(photosFromApi);
+    }
     setBusy(false);
   }
 }

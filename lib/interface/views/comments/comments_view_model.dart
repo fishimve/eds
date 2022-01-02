@@ -16,7 +16,7 @@ class CommentsViewModel extends BaseViewModel {
 
   void getPostComments(int postId) async {
     setBusy(true);
-    List<Comment> commentsFromDb = await _databaseService.queryComments();
+    List<Comment> commentsFromDb = await _databaseService.queryComments(postId);
     if (commentsFromDb.isNotEmpty) {
       _postComments.addAll(commentsFromDb);
     } else {

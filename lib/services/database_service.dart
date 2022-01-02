@@ -120,23 +120,39 @@ class DatabaseService {
     return users;
   }
 
-  Future<List<Post>> queryPosts() async {
-    final List<Map> postsData = await _database!.query(postsTableName);
+  Future<List<Post>> queryPosts(int userId) async {
+    final List<Map> postsData = await _database!.query(
+      postsTableName,
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
     return postsData.map((post) => Post.fromMap(post)).toList();
   }
 
-  Future<List<Album>> queryAlbums() async {
-    final List<Map> albumsData = await _database!.query(albumsTableName);
+  Future<List<Album>> queryAlbums(int userId) async {
+    final List<Map> albumsData = await _database!.query(
+      albumsTableName,
+      where: 'userId = ?',
+      whereArgs: [userId],
+    );
     return albumsData.map((album) => Album.fromMap(album)).toList();
   }
 
-  Future<List<Comment>> queryComments() async {
-    final List<Map> commentsData = await _database!.query(commentsTableName);
+  Future<List<Comment>> queryComments(int postId) async {
+    final List<Map> commentsData = await _database!.query(
+      commentsTableName,
+      where: 'postId = ?',
+      whereArgs: [postId],
+    );
     return commentsData.map((comment) => Comment.fromMap(comment)).toList();
   }
 
-  Future<List<Photo>> queryPhotos() async {
-    final List<Map> photosData = await _database!.query(photosTableName);
+  Future<List<Photo>> queryPhotos(int albumId) async {
+    final List<Map> photosData = await _database!.query(
+      photosTableName,
+      where: 'albumId = ?',
+      whereArgs: [albumId],
+    );
     return photosData.map((photos) => Photo.fromMap(photos)).toList();
   }
 

@@ -1,8 +1,11 @@
 # eds_test
-A mini demo app using JSONPlaceholder API.
+A [Flutter](https://flutter.dev/) app that uses [JSONPlaceholder API](https://jsonplaceholder.typicode.com/) to cache users, posts, comments, albums, and photos locally using [SQLite Database](https://pub.dev/packages/sqflite).
+
+Developed using [Stacked Architecture](https://pub.dev/packages/stacked).
 
 ## Requirements
 - Make sure you have Flutter SDK 2.15.1 and over
+- Internet connection
 
 ## Demo
 - The main screen shows all user given by the API

@@ -26,7 +26,7 @@ class UserViewModel extends BaseViewModel {
   }
 
   Future<void> _getUserPosts(int userId) async {
-    List<Post> postsFromDb = await _databaseService.queryPosts();
+    List<Post> postsFromDb = await _databaseService.queryPosts(userId);
     if (postsFromDb.isNotEmpty) {
       _userPosts.addAll(postsFromDb);
     } else {
@@ -39,7 +39,7 @@ class UserViewModel extends BaseViewModel {
   }
 
   Future<void> _getUserAlbums(int userId) async {
-    List<Album> albumsFromDb = await _databaseService.queryAlbums();
+    List<Album> albumsFromDb = await _databaseService.queryAlbums(userId);
     if (albumsFromDb.isNotEmpty) {
       _userAlbums.addAll(albumsFromDb);
     } else {
