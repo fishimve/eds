@@ -46,7 +46,7 @@ app.*.map.json
 /android/app/release
 
 
-/.VSCodeCounter
-/android
-/Web
-/ios
+**/.VSCodeCounter
+**/android
+**/Web
+**/ios
