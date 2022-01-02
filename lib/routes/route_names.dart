@@ -1,3 +1,4 @@
+const String usersViewRoute = 'usersView';
 const String userViewRoute = 'userView';
 const String postsViewRoute = 'postsView';
 const String albumsViewRoute = 'albumsView';

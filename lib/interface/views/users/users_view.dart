@@ -12,7 +12,6 @@ class UsersView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<UsersViewModel>.reactive(
       viewModelBuilder: () => UsersViewModel(),
-      onModelReady: (viewModel) => viewModel.getUsers(),
       builder: (context, viewModel, child) => Scaffold(
         appBar: AppBar(
           title: const TextWiget.headline2('Users'),

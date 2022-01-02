@@ -21,9 +21,9 @@ class PhotosView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<PhotosViewModel>.reactive(
       viewModelBuilder: () => PhotosViewModel(),
-      onModelReady: (viewModel) {
-        viewModel.getAlbumPhotos(albumId);
+      onModelReady: (viewModel) async {
         viewModel.initSlideshow(slideshow);
+        await viewModel.getAlbumPhotos(albumId);
       },
       builder: (context, viewModel, child) => Scaffold(
         appBar: AppBar(
@@ -38,7 +38,7 @@ class PhotosView extends StatelessWidget {
             ),
           ],
         ),
-        body: viewModel.showSlideShow!
+        body: viewModel.showSlideShow! && viewModel.albumPhotos.isNotEmpty
             ? Padding(
                 padding: basePadding,
                 child: CarouselImagesWidget(

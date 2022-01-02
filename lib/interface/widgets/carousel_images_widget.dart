@@ -21,26 +21,30 @@ class _CarouselImagesWidgetState extends State<CarouselImagesWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CarouselSlider.builder(
-          itemCount: widget.photos.length,
-          options: CarouselOptions(
-            viewportFraction: 1,
-            initialPage: 0,
-            reverse: false,
-            autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 3),
-            autoPlayAnimationDuration: const Duration(milliseconds: 100),
-            autoPlayCurve: Curves.easeIn,
-            enlargeCenterPage: false,
-            onPageChanged: (index, reason) {
-              setState(() {
-                _current = index;
-              });
-            },
-            scrollDirection: Axis.horizontal,
-          ),
-          itemBuilder: (ctx, index, readlIndex) => ImageWidget(
-            imageUrl: widget.photos[index].url,
+        Expanded(
+          child: CarouselSlider.builder(
+            itemCount: widget.photos.length,
+            options: CarouselOptions(
+              aspectRatio: 16 / 9,
+              enableInfiniteScroll: true,
+              viewportFraction: 1,
+              reverse: false,
+              autoPlay: true,
+              height: double.infinity,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 300),
+              autoPlayCurve: Curves.easeIn,
+              enlargeCenterPage: false,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index;
+                });
+              },
+              scrollDirection: Axis.horizontal,
+            ),
+            itemBuilder: (ctx, index, readlIndex) => ImageWidget(
+              imageUrl: widget.photos[index].url,
+            ),
           ),
         ),
         verticalSpaceSmall,

@@ -20,7 +20,7 @@ class PhotosViewModel extends BaseViewModel {
   final _albumPhotos = <Photo>[];
   List<Photo> get albumPhotos => _albumPhotos;
 
-  void getAlbumPhotos(int albumId) async {
+  Future<void> getAlbumPhotos(int albumId) async {
     setBusy(true);
     List<Photo> photosFromApi = await _apiService.getAlbumPhotos(albumId);
     _albumPhotos.addAll(photosFromApi);

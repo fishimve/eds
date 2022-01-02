@@ -10,6 +10,7 @@ import 'views/create_comment/create_comment_view.dart';
 import 'views/photos/photos_view.dart';
 import 'views/posts/posts_view.dart';
 import 'views/user/user_view.dart';
+import 'views/users/users_view.dart';
 
 PageRoute _pageRoute({required String routeName, required Widget view}) {
   return MaterialPageRoute(
@@ -20,6 +21,11 @@ PageRoute _pageRoute({required String routeName, required Widget view}) {
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
+    case usersViewRoute:
+      return _pageRoute(
+        routeName: settings.name!,
+        view: const UsersView(),
+      );
     case userViewRoute:
       final user = settings.arguments as User;
       return _pageRoute(

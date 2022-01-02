@@ -1,14 +1,30 @@
+const String usersTableName = 'users';
+const String addressesTableName = 'addresses';
+const String geoTableName = 'geo';
+const String companiesTableName = 'companies';
+
+class UsersTable {
+  static const String id = 'id';
+  static const String name = 'name';
+  static const String username = 'username';
+  static const String email = 'email';
+  static const String phone = 'phone';
+  static const String website = 'website';
+  static const String address = 'address';
+  static const String company = 'company';
+}
+
 class User {
-  final int id;
+  final int? id;
   final String name;
   final String username;
   final String email;
-  final Address? address;
+  final Address address;
   final String phone;
   final String website;
-  final Company? company;
+  final Company company;
   User({
-    required this.id,
+    this.id,
     required this.name,
     required this.username,
     required this.email,
@@ -18,18 +34,27 @@ class User {
     required this.company,
   });
 
-  static User fromMap(Map<String, dynamic> map) => User(
-        id: map.containsKey('id') ? map['id'] : 0,
-        name: map.containsKey('name') ? map['name'] : '-',
-        username: map.containsKey('username') ? map['username'] : '-',
-        email: map.containsKey('email') ? map['email'] : '-',
-        phone: map.containsKey('phone') ? map['phone'] : '-',
-        website: map.containsKey('website') ? map['website'] : '-',
-        address:
-            map.containsKey('address') ? Address.fromMap(map['address']) : null,
-        company:
-            map.containsKey('company') ? Company.fromMap(map['company']) : null,
-      );
+  static User fromMap(Map<dynamic, dynamic> map) {
+    return User(
+      id: map[UsersTable.id] as int,
+      name: map[UsersTable.name] as String,
+      username: map[UsersTable.username] as String,
+      email: map[UsersTable.email] as String,
+      phone: map[UsersTable.phone] as String,
+      website: map[UsersTable.website] as String,
+      address: Address.fromMap(map[UsersTable.address]),
+      company: Company.fromMap(map[UsersTable.company]),
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+        UsersTable.id: id,
+        UsersTable.name: name,
+        UsersTable.username: username,
+        UsersTable.email: email,
+        UsersTable.phone: phone,
+        UsersTable.website: website,
+      };
 }
 
 class Address {
@@ -46,18 +71,22 @@ class Address {
     required this.geo,
   });
 
-  static Address fromMap(Map<String, dynamic> map) => Address(
-        street: map.containsKey('street') ? map['street'] : '-',
-        suite: map.containsKey('suite') ? map['suite'] : '-',
-        city: map.containsKey('city') ? map['city'] : '-',
-        zipcode: map.containsKey('zipcode') ? map['zipcode'] : '-',
-        geo: map.containsKey('geo')
-            ? {
-                'latitude': map['geo']['lat'],
-                'longitude': map['geo']['lng'],
-              }
-            : {},
-      );
+  static Address fromMap(Map<dynamic, dynamic> map) => Address(
+          street: map['street'] as String,
+          suite: map['suite'] as String,
+          city: map['city'] as String,
+          zipcode: map['zipcode'] as String,
+          geo: {
+            'lat': map['geo']['lat'],
+            'lng': map['geo']['lng'],
+          });
+
+  Map<String, dynamic> toMap() => {
+        'street': street,
+        'suite': suite,
+        'city': city,
+        'zipcode': zipcode,
+      };
 }
 
 class Company {
@@ -70,9 +99,15 @@ class Company {
     required this.bs,
   });
 
-  static Company fromMap(Map<String, dynamic> map) => Company(
-        name: map.containsKey('name') ? map['name'] : '-',
-        catchPhrase: map.containsKey('catchPhrase') ? map['catchPhrase'] : '-',
-        bs: map.containsKey('bs') ? map['bs'] : '-',
+  static Company fromMap(Map<dynamic, dynamic> map) => Company(
+        name: map['name'] as String,
+        catchPhrase: map['catchPhrase'] as String,
+        bs: map['bs'] as String,
       );
+
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'catchPhrase': catchPhrase,
+        'bs': bs,
+      };
 }
