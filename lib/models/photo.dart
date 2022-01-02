@@ -1,3 +1,13 @@
+const String photosTableName = 'photos';
+
+class PhotosTable {
+  static const String id = 'id';
+  static const String albumId = 'albumId';
+  static const String title = 'title';
+  static const String url = 'url';
+  static const String thumbnailUrl = 'thumbnailUrl';
+}
+
 class Photo {
   final int id;
   final int albumId;
@@ -12,12 +22,19 @@ class Photo {
     required this.thumbnailUrl,
   });
 
-  static Photo fromMap(Map<String, dynamic> map) => Photo(
-        id: map.containsKey('id') ? map['id'] : 0,
-        albumId: map.containsKey('albumId') ? map['albumId'] : 0,
-        title: map.containsKey('title') ? map['title'] : '-',
-        url: map.containsKey('url') ? map['url'] : '-',
-        thumbnailUrl:
-            map.containsKey('thumbnailUrl') ? map['thumbnailUrl'] : '-',
+  static Photo fromMap(Map<dynamic, dynamic> map) => Photo(
+        id: map['id'] as int,
+        albumId: map['albumId'] as int,
+        title: map['title'] as String,
+        url: map['url'] as String,
+        thumbnailUrl: map['thumbnailUrl'] as String,
       );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'albumId': albumId,
+        'title': title,
+        'url': url,
+        'thumbnailUrl': thumbnailUrl,
+      };
 }

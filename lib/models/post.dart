@@ -1,3 +1,12 @@
+const String postsTableName = 'posts';
+
+class PostsTable {
+  static const String id = 'id';
+  static const String userId = 'userId';
+  static const String title = 'title';
+  static const String body = 'body';
+}
+
 class Post {
   final int id;
   final int userId;
@@ -10,10 +19,17 @@ class Post {
     required this.body,
   });
 
-  static Post fromMap(Map<String, dynamic> map) => Post(
-        id: map.containsKey('id') ? map['id'] : 0,
-        userId: map.containsKey('userId') ? map['userId'] : 0,
-        title: map.containsKey('title') ? map['title'] : '-',
-        body: map.containsKey('body') ? map['body'] : '-',
+  static Post fromMap(Map<dynamic, dynamic> map) => Post(
+        id: map['id'] as int,
+        userId: map['userId'] as int,
+        title: map['title'] as String,
+        body: map['body'] as String,
       );
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'userId': userId,
+        'title': title,
+        'body': body,
+      };
 }

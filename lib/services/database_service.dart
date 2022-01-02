@@ -1,13 +1,16 @@
 // ignore_for_file: unnecessary_string_escapes
 
+import 'package:eds_test/models/album.dart';
+import 'package:eds_test/models/comment.dart';
+import 'package:eds_test/models/photo.dart';
+import 'package:eds_test/models/post.dart';
 import 'package:eds_test/models/user.dart';
 import 'package:sqflite/sqflite.dart';
 
 const String dbName = 'eds.db';
 const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
 const textType = 'TEXT NOT NULL';
-// const boolType = 'BOOLEAN NOT NULL';
-// const integerType = 'INTEGER NOT NULL';
+const integerType = 'INTEGER NOT NULL';
 
 class DatabaseService {
   static late Database? _database;
@@ -54,6 +57,43 @@ class DatabaseService {
       bs $textType,
       catchPhrase $textType);
     ''');
+
+    await db.execute('''
+    CREATE TABLE $postsTableName(
+      userId $integerType, 
+      id $integerType, 
+      title $textType,
+      body $textType,
+      PRIMARY KEY (userId, id));
+    ''');
+
+    await db.execute('''
+    CREATE TABLE $albumsTableName(
+      userId $integerType, 
+      id $integerType, 
+      title $textType,
+      PRIMARY KEY (userId, id));
+    ''');
+
+    await db.execute('''
+    CREATE TABLE $commentsTableName(
+      id $integerType, 
+      postId $integerType, 
+      name $textType,
+      email $textType,
+      body $textType,
+      PRIMARY KEY (postId, id));
+    ''');
+
+    await db.execute('''
+    CREATE TABLE $photosTableName(
+      id $integerType, 
+      albumId $integerType, 
+      title $textType,
+      url $textType,
+      thumbnailUrl $textType,
+      PRIMARY KEY (albumId, id));
+    ''');
   }
 
   Future<List<User>> queryUsers() async {
@@ -80,6 +120,26 @@ class DatabaseService {
     return users;
   }
 
+  Future<List<Post>> queryPosts() async {
+    final List<Map> postsData = await _database!.query(postsTableName);
+    return postsData.map((post) => Post.fromMap(post)).toList();
+  }
+
+  Future<List<Album>> queryAlbums() async {
+    final List<Map> albumsData = await _database!.query(albumsTableName);
+    return albumsData.map((album) => Album.fromMap(album)).toList();
+  }
+
+  Future<List<Comment>> queryComments() async {
+    final List<Map> commentsData = await _database!.query(commentsTableName);
+    return commentsData.map((comment) => Comment.fromMap(comment)).toList();
+  }
+
+  Future<List<Photo>> queryPhotos() async {
+    final List<Map> photosData = await _database!.query(photosTableName);
+    return photosData.map((photos) => Photo.fromMap(photos)).toList();
+  }
+
   Future insertUser(User user) async {
     try {
       await _database!.rawInsert('''
@@ -97,6 +157,38 @@ class DatabaseService {
     } catch (e) {
       throw Exception('Couldn\'t insert into db: $e');
     }
+  }
+
+  Future insertPost(Post post) async {
+    await _database!.insert(
+      postsTableName,
+      post.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future insertAlbum(Album album) async {
+    await _database!.insert(
+      albumsTableName,
+      album.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future insertComment(Comment comment) async {
+    await _database!.insert(
+      commentsTableName,
+      comment.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future insertPhoto(Photo photo) async {
+    await _database!.insert(
+      photosTableName,
+      photo.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<void> dropUsers() async {
@@ -117,10 +209,3 @@ class DatabaseService {
     return tableNames;
   }
 }
-
-
-      // final userId = await _database!.insert(
-      //   usersTableName,
-      //   user.toMap(),
-      //   conflictAlgorithm: ConflictAlgorithm.replace,
-      // );
